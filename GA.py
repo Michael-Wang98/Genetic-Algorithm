@@ -63,16 +63,6 @@ def mutate(result):
 
     return mutated[0:11], mutated[11:21], mutated[21:]
 
-    # single swap mutation, might want something more drastic, this rarely does anything
-    # merge = result[0] + result[1] + result[2]
-    # indices = sample(range(0, len(merge)), 2)
-    # lower = min(indices[0], indices[1])
-    # higher = max(indices[0], indices[1])
-    # mutated = merge[0:lower] + merge[higher] + merge[lower+1:higher-1] + merge[lower] + merge[higher:]
-    #
-    # return mutated[0:11], mutated[11:21], mutated[21:]
-
-
 # uniform crossover
 def crossover(first, second):
     merge1 = first[0] + first[1] + first[2]
@@ -151,19 +141,10 @@ if __name__ == '__main__':
         new_pop = []
         new_fit = []
         remainder = int((IND - KEEP) / 2)
-        # temp = fit[0:POOL]
+
         for h in range(KEEP):
             new_pop.append(pop[fit[h][1]])
             new_fit.append((fit[h][0], h))
-        # for i in range(POOL):
-        #     mating_pool.append(pop[temp[i][1]])
-
-        # pop.clear()
-        # fit.clear()
-
-        # for j in range(KEEP):
-        #     fit.append((best_fit[j], j))
-        #     pop.append(mating_pool[j])
 
         for i in range(len(fit)):
             denominator += fit[i][0]
@@ -200,58 +181,9 @@ if __name__ == '__main__':
         fit = new_fit
         pop = new_pop
         best.append(fit[0][0])
-
+    
+    # Graph the overall results of the best fitness over the generations
     pyot.plot(range(0, GENE), best)
     pyot.xlabel("Generation")
     pyot.ylabel("Best Fitness")
     pyot.show()
-
-
-# # main generational loop
-#     for g in range(GENE):
-#         denominator = 0
-#         best_fit = []  # temp array for best fitness to be preserved across generations
-#         mating_pool = []  # array of mating individuals
-#         temp = fit[0:POOL]  # temp array of most fit individuals from previous generation
-#         for h in range(KEEP):
-#             best_fit.append(fit[h][0])
-#         for i in range(POOL):
-#             mating_pool.append(pop[temp[i][1]])
-#
-#         pop.clear()
-#         fit.clear()
-#
-#         for j in range(KEEP):
-#             fit.append((best_fit[j], j))
-#             pop.append(mating_pool[j])
-#
-#         remainder = int((IND-KEEP)/2)
-#
-#         for k in range(remainder):
-#             partners = sample(range(0, POOL), 2)
-#             child1, child2 = mate(f2b(mating_pool[partners[0]]), f2b(mating_pool[partners[1]]))
-#             child1 = b2f(child1)
-#             child2 = b2f(child2)
-#
-#             pop.append(child1)
-#             try:
-#                 ind_fit = q2_perfFNC(child1[0], child1[1], child1[2])[0]
-#                 fit.append((ind_fit, k+KEEP))
-#             except IndexError:
-#                 pass
-#
-#             pop.append(child2)
-#             try:
-#                 ind_fit = q2_perfFNC(child2[0], child2[1], child2[2])[0]
-#                 fit.append((ind_fit, k+KEEP+1))
-#             except IndexError:
-#                 pass
-#
-#         fit.sort()
-#         print(fit[0][0])
-#         best.append(fit[0][0])
-#
-#     pyot.plot(range(0, GENE), best)
-#     pyot.xlabel("Generation")
-#     pyot.ylabel("Best Fitness")
-#     pyot.show()
